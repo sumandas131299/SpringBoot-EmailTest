@@ -98,4 +98,49 @@ public class ServiceImp {
         }
 
     }
+
+    public void uploadWithoutBody(MultipartFile file, String sub ,String body) throws IOException {
+
+        InputStream is = file.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
+        String line ="";
+        List<email> emailList=new ArrayList();
+        while((line=br.readLine())!=null){
+            String[] s= line.split(",");
+            email Email = new email();
+            Email.setTo(s[0]);
+            Email.setSubject((String) sub);
+            Email.setMessage((String) body);
+            // System.out.println(s[0]);
+            emailList.add(Email);
+        }
+
+        int index = 1;
+        while(index<emailList.size()){
+            System.out.println(emailList.get(index).getSubject());
+            System.out.println(emailList.size());
+
+            try{
+                MimeMessage message = javaMailSender.createMimeMessage();
+                MimeMessageHelper actualMail = new MimeMessageHelper(message);
+
+                // SimpleMailMessage actualMail = new SimpleMailMessage();
+                actualMail.setFrom(fromEmail);
+                actualMail.setTo(emailList.get(index).getTo());
+                actualMail.setSubject(emailList.get(index).getSubject());
+                actualMail.setText(emailList.get(index).getMessage());
+                javaMailSender.send( message);
+
+
+            }catch (Exception e){
+                System.out.println("error in UploadOnlyEmail sending :: ServiceImp :: " + e );
+                e.printStackTrace();
+            }
+            index++;
+        }
+
+
+    }
+
+
 }

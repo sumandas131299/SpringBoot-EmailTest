@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @RestController
 public class MainController {
@@ -28,6 +29,10 @@ ServiceImp service;
         return "Mails sucessfully";
     }
 
-
+    @PostMapping("/uploadWithoutBody-Email")
+    public String uploadWithoutBody(@RequestParam("csv")MultipartFile file ,@RequestParam("sub")String sub,@RequestParam("body")String body ) throws IOException {
+    this.service.uploadWithoutBody(file , sub,body);
+    return "Mail sent sucessfull";
+    }
 
 }
