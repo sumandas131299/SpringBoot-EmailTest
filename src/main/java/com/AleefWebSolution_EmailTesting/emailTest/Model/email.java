@@ -1,5 +1,8 @@
 package com.AleefWebSolution_EmailTesting.emailTest.Model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class email {
 
 
@@ -7,6 +10,7 @@ public class email {
     private  String subject;
 
 
+    
 
     private  String message ;
 
